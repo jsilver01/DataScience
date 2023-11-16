@@ -51,7 +51,8 @@ class class_linear_regression_for_multiple_independent_variable():
             rows.append(tuple(t))
     
         self.cur.executemany(insert_sql, rows)
-        self.conn.commit()
+        self.conn.commit() 
+
 
 
         print("table created and data loaded")
