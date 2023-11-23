@@ -4,7 +4,7 @@ from db_conn import *
 from konlpy.tag import *
 ### pip install konlpy
 
-from mecab import MeCab
+#from mecab import MeCab
 ### pip install python-mecab-ko
 
 import pandas as pd
@@ -42,14 +42,12 @@ class class_document_tfidf():
         
     
     def import_news_article(self):
-        drop_sql =""" drop table if exists news_article;"""
+        drop_sql ="""drop table if exists news_article;"""
         self.cur.execute(drop_sql)
         self.conn.commit()
     
         create_sql = """
-            drop table if exists news_article;
-        
-            CREATE TABLE news_article (
+            CREATE TABLE IF NOT EXISTS news_article (
               id int auto_increment primary key,
               url varchar(500),
               title varchar(500),
@@ -255,7 +253,7 @@ class class_document_tfidf():
         self.conn.commit()
         
 
-        tfidf_sql = """ insert into tfidf(doc_id, term_id, tf, tfidf )  
+        tfidf_sql = """ insert into tfidf(doc_id, term_id, tf, tfidf)  
                         select ent.doc_id, ntd.id, count(*) as tf, count(*) * idf.idf as tfidf
                         from extracted_terms ent, term_dict ntd, idf idf
                         where ent.term = ntd.term and ntd.id = idf.term_id
@@ -328,8 +326,8 @@ if __name__ == '__main__':
     cdb = class_document_tfidf()
     #cdb.combine_excel_file()
     #cdb.import_news_article()
-    #cdb.extract_nouns()
-    #cdb.gen_idf()
+    cdb.extract_nouns()
+    cdb.gen_idf()
     #cdb.show_top_df_terms()
     #cdb.show_top_idf_terms()
     #cdb.gen_tfidf()
