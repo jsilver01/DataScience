@@ -1,4 +1,4 @@
-from db_conn import *
+from ..db_conn import *
 import pandas as pd
 import numpy as np
 
